@@ -583,6 +583,7 @@
     }
 
     function showIngredientDetail(ing) {
+        // 재료명 혹은 카테고리/서브카테고리명으로 문서 찾기
         const doc = ingredientDocs[ing] || Object.values(ingredientDocs).find(d => d.카테고리 === ing || d.서브카테고리 === ing);
         if(!doc) {
             document.getElementById('m-name').innerText = ing;
@@ -590,14 +591,54 @@
             document.getElementById('m-content').innerHTML = `<div class="m-recipe-box">정보가 없습니다.</div>`;
             openModal(); return;
         }
+
         const isRep = (ing === doc.카테고리 || ing === doc.서브카테고리);
         const actualName = isRep ? ing : doc.재료명;
+        
         document.getElementById('m-name').innerText = actualName;
         document.getElementById('m-eng-name').innerText = doc['영어명'] || ''; 
         document.getElementById('m-ings').innerHTML = `<span style="background:#2f3542; color:white; padding:6px 18px; border-radius:25px; font-size:0.9em;">${doc.카테고리}</span>`;
-        let html = `<div class="m-visual-section"><img id="m-img" src="${doc.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'"></div><div class="label-text">INGREDIENT INFO</div><div class="m-desc-box">${doc.설명 || '설명이 준비 중입니다.'}</div>`;
-        if (!isRep && !selected.has(actualName)) {
+        
+        let html = `<div class="m-visual-section"><img id="m-img" src="${doc.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'"></div>
+                    <div class="label-text">INGREDIENT INFO</div><div class="m-desc-box">${doc.설명 || '설명이 준비 중입니다.'}</div>`;
+        
+        if (!selected.has(actualName) && !isRep) {
             html += `<button class="add-bar-btn" onclick="toggleIngredient('${actualName}'); closeModal();">내 바에 추가하기</button>`;
+        }
+
+        if (isRep) {
+            const targetName = ing;
+            const relatedIngs = Object.keys(ingredientDocs).filter(key => {
+                const d = ingredientDocs[key];
+                return (d.카테고리 === targetName || d.서브카테고리 === targetName) && key !== targetName;
+            });
+
+            if(relatedIngs.length > 0) {
+                html += `<div class="recommend-title">📦 ${targetName} 하위 재료</div><div class="selected-scroll">`;
+                relatedIngs.sort((a,b) => (ingredientUsage[b]||0) - (ingredientUsage[a]||0)).forEach(subIng => {
+                    const subDoc = ingredientDocs[subIng];
+                    html += `
+                        <div class="item-card" onclick="showIngredientDetail('${subIng}')">
+                            <img src="${subDoc?.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'">
+                            <span>${subIng}</span>
+                        </div>`;
+                });
+                html += `</div>`;
+            }
+        } else {
+            const recommends = recipes.filter(r => r.items.includes(doc.재료명) || r.items.includes(doc.카테고리) || r.items.includes(doc.서브카테고리)).slice(0, 5);
+            if(recommends.length > 0) {
+                // 추천 레시피 섹션 UI를 재료 대시보드(가로 스크롤 카드) 스타일로 변경
+                html += `<div class="recommend-title">🍹 추천 레시피</div><div class="selected-scroll">`;
+                recommends.forEach(r => {
+                    html += `
+                        <div class="item-card" onclick="showDetail(${JSON.stringify(r).replace(/"/g, '&quot;')})">
+                        <img src="${r.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'" style="border-radius:10px; object-fit:cover;">
+                        <span>${r.이름}</span>
+                    </div>`;
+                });
+                html += `</div>`;
+            }
         }
         document.getElementById('m-content').innerHTML = html;
         openModal();
