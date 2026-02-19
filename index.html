@@ -204,16 +204,20 @@
         document.getElementById('m-ings').innerHTML = "";
         document.getElementById('m-content').innerHTML = `
             <div class="guide-step fade-in">
-                <div class="guide-step-title">1. 보유 재료 선택</div>
-                <div class="guide-step-desc">검색창이나 카테고리 탭을 이용해 현재 가지고 있는 재료를 클릭하여 추가하세요.</div>
+                <div class="guide-step-title">1. 재료 선택하기</div>
+                <div class="guide-step-desc">검색창이나 카테고리 탭을 이용해 현재 가지고 있는 재료를 추가하세요.</div>
             </div>
             <div class="guide-step fade-in" style="animation-delay: 0.1s">
-                <div class="guide-step-title">2. 레시피 확인</div>
-                <div class="guide-step-desc">재료를 추가하면 즉시 만들 수 있는 칵테일과 재료가 조금 부족한 칵테일이 구분되어 나타납니다.</div>
+                <div class="guide-step-title">2. 레시피 확인하기</div>
+                <div class="guide-step-desc">재료를 추가하면 즉시 만들 수 있는 칵테일과 재료가 조금 부족한 칵테일이 구분되어 나타나요.</div>
             </div>
             <div class="guide-step fade-in" style="animation-delay: 0.2s">
-                <div class="guide-step-title">3. 상세 정보와 게이지</div>
-                <div class="guide-step-desc">레시피를 누르면 재료 비율을 시각화한 게이지와 상세 제조법을 볼 수 있습니다.</div>
+                <div class="guide-step-title">3. 보고 만들기</div>
+                <div class="guide-step-desc">레시피를 누르면 재료 비율을 시각화한 게이지와 상세 제조법을 볼 수 있어요.</div>
+            </div>
+            <div class="guide-step fade-in" style="animation-delay: 0.3s">
+                <div class="guide-step-title">4. 칵테일을 즐기세요!</div>
+                <div class="guide-step-desc">여러분의 맛있는 칵테일이 완성되었어요. 취향에 따라 비율을 조절해보는 것도 좋은 시도에요.</div>
             </div>
             <button class="add-bar-btn" onclick="closeModal()">이해했어요!</button>
         `;
@@ -349,7 +353,7 @@
         if (currentCategory !== '전체' && !query) {
             const mainTitle = document.createElement('div');
             mainTitle.className = 'group-title main-cat-title';
-            mainTitle.innerHTML = `${currentCategory} <span class="info-icon">ℹ️</span>`;
+            mainTitle.innerHTML = `<span class="info-icon">ℹ️</span> ${currentCategory}`;
             mainTitle.onclick = () => showIngredientDetail(currentCategory);
             container.appendChild(mainTitle);
         }
@@ -357,7 +361,7 @@
         Object.keys(groups).sort().forEach(sCat => {
             const groupTitle = document.createElement('div');
             groupTitle.className = 'group-title';
-            groupTitle.innerHTML = `${sCat} <span class="info-icon">ℹ️</span>`;
+            groupTitle.innerHTML = `<span class="info-icon">ℹ️</span> ${sCat}`;
             groupTitle.onclick = () => showIngredientDetail(sCat);
             container.appendChild(groupTitle);
             const grid = document.createElement('div');
@@ -566,19 +570,15 @@
         }
 
         // 유튜브 섹션 HTML 생성
-        const ytId = getYoutubeId(r.youtube);
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = r.youtube ? r.youtube.match(regExp) : null;
+        const ytId = (match && match[2].length === 11) ? match[2] : null;
+    
         const ytHtml = ytId ? `<div class="label-text">MAKING VIDEO</div><div class="video-container"><iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen></iframe></div>` : '';
 
         document.getElementById('m-content').innerHTML = `
-            <div class="m-visual-section">
-                <img id="m-img" src="${r.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'">
-                ${layersHtml}
-            </div>
-            ${r.설명 ? `<div class="label-text">ABOUT</div><div class="m-desc-box">${r.설명}</div>` : ''}
-            <div class="label-text">RECIPE</div>
-            <div class="m-recipe-box">${r.레시피 || '정보가 없습니다.'}</div>
-            ${ytHtml}`;
-            
+            <div class="m-visual-section"><img src="${r.이미지 || DEFAULT_IMG}" id="m-img" onerror="this.src='${DEFAULT_IMG}'"></div>
+            <div class="label-text">RECIPE</div><div class="m-recipe-box">${r.레시피}</div>${ytHtml}`;
         openModal();
     }
 
@@ -651,8 +651,15 @@
     }
     function closeModal() {
         const m = document.getElementById('modal'), o = document.getElementById('modal-overlay');
-        m.classList.remove('show'); o.classList.remove('show');
-        setTimeout(() => m.style.display = o.style.display = 'none', 300);
+        m.classList.remove('show');
+        o.classList.remove('show');
+    
+        setTimeout(() => {
+            m.style.display = o.style.display = 'none';
+            // 팝업이 완전히 닫힌 후 내용을 비워 오디오/영상을 종료합니다.
+            document.getElementById('m-content').innerHTML = '';
+            document.getElementById('m-ings').innerHTML = '';
+        }, 300);
     }
     window.onload = () => { autoLoad('cocktails.xlsx', 'r'); autoLoad('ingredients.xlsx', 'i'); };
 </script>
