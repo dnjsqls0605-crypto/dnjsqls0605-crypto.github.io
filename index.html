@@ -13,7 +13,7 @@
             --bg: #f7f8f2; 
         }
         
-        body { font-family: 'Pretendard', -apple-system, sans-serif; background: var(--bg); padding: 20px; color: #2f3542; line-height: 1.5; }
+        body { font-family: 'Pretendard', -apple-system, sans-serif; background: var(--bg); padding: 20px; color: #2f3542; line-height: 1.5; margin-bottom: 100px; }
         .container { max-width: 600px; margin: 0 auto; }
         
         @keyframes fadeInUp {
@@ -25,12 +25,12 @@
 
         /* --- 공통 컴포넌트 --- */
         #toast {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
             background: rgba(47, 53, 66, 0.9); color: white; padding: 12px 25px;
             border-radius: 30px; font-size: 0.9rem; font-weight: bold; z-index: 1000;
             opacity: 0; transition: opacity 0.3s, bottom 0.3s; pointer-events: none;
         }
-        #toast.show { opacity: 1; bottom: 50px; }
+        #toast.show { opacity: 1; bottom: 100px; }
 
         .header-section { text-align: center; margin-bottom: 25px; }
         .main-logo { max-width: 200px; width: 70%; height: auto; margin-bottom: 8px; }
@@ -40,15 +40,26 @@
         .search-input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 12px; box-sizing: border-box; font-size: 1rem; outline: none; transition: 0.3s; margin-bottom: 12px; }
         .search-input:focus { border-color: var(--primary); }
         
-        .category-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; white-space: nowrap; scrollbar-width: none; }
-        .category-tabs::-webkit-scrollbar { display: none; }
-        .cat-tab { padding: 7px 15px; border-radius: 15px; background: #f1f2f6; border: none; font-size: 0.85rem; cursor: pointer; color: #57606f; transition: 0.2s; }
+        /* 카테고리 탭: 스크롤 제거 및 줄바꿈 적용 */
+        .category-tabs { display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 8px; }
+        .cat-tab { padding: 8px 14px; border-radius: 12px; background: #f1f2f6; border: none; font-size: 0.85rem; cursor: pointer; color: #57606f; transition: 0.2s; }
         .cat-tab.active { background: #2f3542; color: white; font-weight: bold; }
 
+        #sub-category-box { display: flex; gap: 6px; overflow-x: auto; margin: 10px 0 5px 0; padding: 5px 0; scrollbar-width: none; }
+        #sub-category-box::-webkit-scrollbar { display: none; }
+        .sub-cat-btn { padding: 5px 12px; border-radius: 10px; border: 1px solid #eee; background: #fff; font-size: 0.8rem; cursor: pointer; white-space: nowrap; color: #a4b0be; }
+        .sub-cat-btn.active { border-color: var(--primary-dark); color: var(--primary-dark); background: #f9fff0; font-weight: bold; }
+
         #ingredient-list { 
-            background: white; padding: 12px; border-radius: 20px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.03);
-            max-height: 155px; overflow-y: auto; text-align: center; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px;
+            background: white; padding: 15px; border-radius: 20px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.03);
+            max-height: 350px; overflow-y: auto; text-align: left;
         }
+        .group-title { font-size: 0.75rem; color: #747d8c; margin: 15px 0 8px 5px; font-weight: bold; display: flex; align-items: center; gap: 4px; cursor: pointer; }
+        .group-title:first-child { margin-top: 5px; }
+        .main-cat-title { color: var(--primary-dark); font-size: 0.85rem; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 12px; }
+        
+        .ing-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+
         .ingredient-btn { padding: 8px 14px; border-radius: 20px; border: 1px solid #ddd; cursor: pointer; background: white; transition: 0.2s; font-size: 0.85rem; }
         .ingredient-btn.active { background: var(--primary); color: #4a542a; border-color: var(--primary-dark); font-weight: bold; }
 
@@ -57,15 +68,14 @@
         .reset-btn { background: none; border: none; color: #ff4757; font-size: 0.75rem; cursor: pointer; font-weight: bold; text-decoration: underline; }
 
         .selected-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 10px 5px; scrollbar-width: none; }
-        .selected-item { 
+        .item-card { 
             flex: 0 0 105px; width: 105px; height: 130px; background: white; border-radius: 18px; 
             box-shadow: 0 6px 15px rgba(0,0,0,0.08); text-align: center; position: relative;
             padding: 10px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center;
             cursor: pointer; transition: transform 0.2s;
         }
-        .selected-item:active { transform: scale(0.95); }
-        .selected-item img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 8px; }
-        .selected-item span { font-size: 0.85rem; font-weight: bold; color: #2f3542; word-break: keep-all; line-height: 1.2; }
+        .item-card img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 8px; }
+        .item-card span { font-size: 0.85rem; font-weight: bold; color: #2f3542; word-break: keep-all; line-height: 1.2; }
         .remove-tag { 
             position: absolute; top: -6px; right: -6px; background: #ff4757; color: white; 
             width: 24px; height: 24px; border-radius: 50%; font-size: 15px; border: 2px solid white; cursor: pointer; font-weight: bold;
@@ -84,59 +94,30 @@
 
         .match-badge { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; background: #e3f2fd; color: #1976d2; border: 1px solid #1976d2; font-weight: bold; }
 
-        .footer-banner { margin-top: 40px; margin-bottom: 20px; text-align: center; }
-        .footer-banner img { width: 100%; display: block; border: none; }
+        .bottom-image-wrap { text-align: center; margin: 40px 0 20px 0; }
+        .bottom-banner-img { max-width: 100%; height: auto; border-radius: 15px; }
 
-        /* --- ✨ 비율 그래프 스타일 --- */
-        .m-visual-section {
-            display: flex; align-items: flex-end; justify-content: center; gap: 20px; margin-bottom: 25px;
-        }
-        .glass-container {
-            width: 95px; height: 140px; position: relative; border: 3px solid #2f3542;
-            border-top: none; border-radius: 4px 4px 22px 22px;
-            overflow: hidden; background: #fff; 
-            display: flex; flex-direction: column;
-        }
-        .glass-layer {
-            width: 100%; transition: height 1s ease-out; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-size: 9px; font-weight: bold; color: #2f3542; line-height: 1.1;
-            overflow: hidden; white-space: nowrap; padding: 2px 4px; box-sizing: border-box;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-        .glass-layer:last-child { border-bottom: none; }
-
-        .color-0 { background-color: #ffeadb; } .color-1 { background-color: #e2f5ff; }
-        .color-2 { background-color: #ebf7d4; } .color-3 { background-color: #fff9db; }
-        .color-4 { background-color: #f3e5f5; } .color-5 { background-color: #ffebee; }
-
-        /* --- 팝업 스타일 --- */
         #modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; backdrop-filter: blur(5px); opacity: 0; transition: opacity 0.3s ease; }
         #modal-overlay.show { display: block; opacity: 1; }
-        
-        #modal { 
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, 60%); 
-            background: white; padding: 40px 25px 30px 25px; border-radius: 35px; z-index: 1000; 
-            width: 90%; max-width: 480px; text-align: center; max-height: 85vh; overflow-y: auto; 
-            box-shadow: 0 25px 60px rgba(0,0,0,0.35); opacity: 0; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1), opacity 0.3s ease; 
-        }
+        #modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, 60%); background: white; padding: 40px 25px 30px 25px; border-radius: 35px; z-index: 1000; width: 90%; max-width: 480px; text-align: center; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 60px rgba(0,0,0,0.35); opacity: 0; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1), opacity 0.3s ease; }
         #modal.show { display: block; transform: translate(-50%, -50%); opacity: 1; }
-        
         .close-x { position: absolute; top: 20px; right: 20px; font-size: 32px; color: #d1d8e0; cursor: pointer; line-height: 1; transition: 0.2s; z-index: 1001; }
-        .close-x:hover { color: #2f3542; }
-
-        #m-name { border-bottom: 4px solid var(--primary); display: inline-block; padding-bottom: 5px; margin-bottom: 20px; font-size: 1.6rem; letter-spacing: -0.5px; }
+        #m-name { border-bottom: 4px solid var(--primary); display: inline-block; padding-bottom: 2px; font-size: 1.6rem; letter-spacing: -0.5px; margin-bottom: 4px; }
+        #m-eng-name { font-size: 0.9rem; color: #a4b0be; font-weight: 500; text-transform: uppercase; }
         #m-img { width: 160px; height: 160px; object-fit: contain; margin: 0; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); }
-        
-        /* 박스 레이아웃 추가 */
         .label-text { font-size: 0.8rem; font-weight: bold; color: #a4b0be; text-align: left; margin-top: 15px; padding-left: 5px; text-transform: uppercase; }
-        .m-desc-box { text-align: left; background: #fdfdfd; border-left: 5px solid #d1d8e0; padding: 15px; border-radius: 12px; font-size: 0.95rem; margin-top: 8px; color: #57606f; line-height: 1.6; }
+        .m-desc-box { text-align: left; background: #fdfdfd; border-left: 5px solid #d1d8e0; padding: 15px; border-radius: 12px; font-size: 0.95rem; margin-top: 8px; color: #57606f; line-height: 1.6; white-space: pre-wrap; }
         .m-recipe-box { text-align: left; background: #f9f9f4; border-left: 5px solid var(--primary); padding: 18px; border-radius: 12px; font-size: 1rem; white-space: pre-wrap; line-height: 1.7; margin-top: 8px; }
-
         .recommend-title { font-size: 0.95rem; font-weight: bold; color: #747d8c; margin-top: 30px; text-align: left; padding-left: 5px; }
         .recommend-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
         .mini-card { display: flex; align-items: center; gap: 15px; background: #f1f2f6; padding: 12px; border-radius: 15px; cursor: pointer; text-align: left; transition: 0.2s; }
         .mini-card img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; background: white; }
-        .mini-card span { font-size: 1rem; font-weight: bold; color: #2f3542; }
+
+        .add-bar-btn { width: 100%; padding: 15px; background: var(--primary); color: #4a542a; border: none; border-radius: 15px; font-size: 1rem; font-weight: bold; margin-top: 25px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .add-bar-btn:active { transform: scale(0.98); background: var(--primary-dark); }
+
+        .bottom-banner { position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: #2f3542; color: white; display: flex; align-items: center; justify-content: center; z-index: 900; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); font-size: 0.9rem; font-weight: bold; cursor: pointer; }
+        .info-icon { color: #3498db; font-size: 0.9rem; margin-left: 4px; display: inline-flex; align-items: center; }
     </style>
 </head>
 <body>
@@ -147,10 +128,13 @@
     </header>
 
     <div class="search-filter-box">
-        <input type="text" id="ing-search" class="search-input" placeholder="🔍 재료 검색 (초성 가능)..." oninput="filterIngredients()">
+        <input type="text" id="ing-search" class="search-input" placeholder="🔍 재료 검색" oninput="filterIngredients()">
         <div class="category-tabs" id="category-tabs"></div>
+        <div id="sub-category-box"></div>
     </div>
+
     <div id="ingredient-list"></div>
+
     <div class="selected-container" id="selected-box">
         <div class="selected-header">
             <div style="font-size: 0.85rem; font-weight: bold; color: #747d8c;">📍 보유 중인 재료</div>
@@ -159,16 +143,22 @@
         <div class="selected-scroll" id="selected-list"></div>
     </div>
     <div id="result-list"></div>
-    <div class="footer-banner fade-in">
-        <img src="banner.png" alt="" onerror="this.parentElement.style.display='none'">
+
+    <div class="bottom-image-wrap">
+        <img src="banner.png" alt="Banner" class="bottom-banner-img" onerror="this.parentElement.style.display='none'">
     </div>
 </div>
+
+<div class="bottom-banner" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">🍹 나만의 스마트한 칵테일 바, CKTL.GG</div>
 
 <div id="toast">모든 재료를 지웠어요</div>
 <div id="modal-overlay" onclick="closeModal()"></div>
 <div id="modal">
     <span class="close-x" onclick="closeModal()">&times;</span>
-    <h2 id="m-name"></h2>
+    <div class="modal-header-group">
+        <h2 id="m-name"></h2>
+        <div id="m-eng-name"></div>
+    </div>
     <div id="m-ings" style="text-align: left; margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;"></div>
     <div id="m-content"></div>
 </div>
@@ -176,8 +166,15 @@
 <script>
     const DEFAULT_IMG = "default.png"; 
     let recipes = [], ingredientDocs = {}, selected = new Set();
-    let currentCategory = '전체', categories = new Set(['전체']);
+    let currentCategory = '전체', currentSubCategory = '전체';
+    let categories = new Set(['전체']), subCategories = {}; 
     let ingredientUsage = {};
+
+    function saveSelected() { localStorage.setItem('cktl_selected', JSON.stringify([...selected])); }
+    function loadSelected() {
+        const saved = localStorage.getItem('cktl_selected');
+        if (saved) selected = new Set(JSON.parse(saved));
+    }
 
     function getChosung(str) {
         const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
@@ -205,13 +202,24 @@
                 json.forEach(row => { 
                     if(row['재료명']) {
                         const name = row['재료명'].trim();
-                        ingredientDocs[name] = row; 
-                        if(row['카테고리']) categories.add(row['카테고리'].trim());
+                        const cat = row['카테고리']?.trim() || '기타';
+                        let subCat = row['서브카테고리']?.trim() || '';
+                        if(subCat === '기타') subCat = ''; 
+                        
+                        ingredientDocs[name] = { ...row, 카테고리: cat, 서브카테고리: subCat }; 
+                        categories.add(cat);
+                        
+                        if(subCat) {
+                            if(!subCategories[cat]) subCategories[cat] = new Set(['전체']);
+                            subCategories[cat].add(subCat);
+                        }
                     }
                 });
                 renderCategoryTabs();
             }
+            loadSelected();
             filterIngredients();
+            renderRecipes();
         } catch(e) { console.log("로드 중..."); }
     }
 
@@ -227,8 +235,36 @@
             const btn = document.createElement('button');
             btn.className = `cat-tab ${currentCategory === cat ? 'active' : ''}`;
             btn.innerText = cat;
-            btn.onclick = () => { currentCategory = cat; renderCategoryTabs(); filterIngredients(); };
+            btn.onclick = () => { 
+                currentCategory = cat; 
+                currentSubCategory = '전체'; 
+                renderCategoryTabs(); 
+                renderSubCategories(); 
+                filterIngredients(); 
+            };
             tabContainer.appendChild(btn);
+        });
+        renderSubCategories();
+    }
+
+    function renderSubCategories() {
+        const subBox = document.getElementById('sub-category-box');
+        subBox.innerHTML = '';
+        if (currentCategory === '전체' || !subCategories[currentCategory]) {
+            subBox.style.display = 'none';
+            return;
+        }
+        subBox.style.display = 'flex';
+        subCategories[currentCategory].forEach(sub => {
+            const btn = document.createElement('button');
+            btn.className = `sub-cat-btn ${currentSubCategory === sub ? 'active' : ''}`;
+            btn.innerText = sub;
+            btn.onclick = () => {
+                currentSubCategory = sub;
+                renderSubCategories();
+                filterIngredients();
+            };
+            subBox.appendChild(btn);
         });
     }
 
@@ -238,51 +274,80 @@
         const container = document.getElementById('ingredient-list');
         container.innerHTML = '';
         
-        const sortedIngs = Object.keys(ingredientDocs).sort((a, b) => {
-            if (selected.has(a) !== selected.has(b)) return selected.has(a) ? -1 : 1;
-            const isRepA = (a === ingredientDocs[a]?.카테고리);
-            const isRepB = (b === ingredientDocs[b]?.카테고리);
-            if (isRepA !== isRepB) return isRepA ? -1 : 1;
-            const countA = ingredientUsage[a] || 0;
-            const countB = ingredientUsage[b] || 0;
-            if (countA !== countB) return countB - countA;
-            return a.localeCompare(b);
-        });
+        const groups = {};
+        const noSubGroup = [];
 
-        sortedIngs.forEach(ing => {
+        Object.keys(ingredientDocs).forEach(ing => {
             const doc = ingredientDocs[ing];
             const isMatch = ing.toLowerCase().includes(query) || getChosung(ing).includes(queryCho);
-            const isRepresentative = (ing === doc['카테고리']);
-            if (isMatch) {
-                if (currentCategory === '전체') {
-                    if (!isRepresentative || selected.has(ing)) createIngBtn(ing, isRepresentative);
-                } else if (currentCategory === doc['카테고리']) {
-                    createIngBtn(ing, isRepresentative);
+            const catMatch = currentCategory === '전체' || doc.카테고리 === currentCategory;
+            const subMatch = currentSubCategory === '전체' || doc.서브카테고리 === currentSubCategory;
+
+            if (isMatch && catMatch && subMatch) {
+                const isRep = (ing === doc.카테고리 || ing === doc.서브카테고리);
+                if (isRep) return;
+                
+                if (currentCategory !== '전체' && doc.서브카테고리) {
+                    if (!groups[doc.서브카테고리]) groups[doc.서브카테고리] = [];
+                    groups[doc.서브카테고리].push(ing);
+                } else {
+                    noSubGroup.push(ing);
                 }
             }
         });
 
-        function createIngBtn(ing, isRepresentative) {
+        if (currentCategory !== '전체' && !query) {
+            const mainTitle = document.createElement('div');
+            mainTitle.className = 'group-title main-cat-title';
+            mainTitle.innerHTML = `${currentCategory} <span class="info-icon">ℹ️</span>`;
+            mainTitle.onclick = () => showIngredientDetail(currentCategory);
+            container.appendChild(mainTitle);
+        }
+
+        Object.keys(groups).sort().forEach(sCat => {
+            const groupTitle = document.createElement('div');
+            groupTitle.className = 'group-title';
+            groupTitle.innerHTML = `${sCat} <span class="info-icon">ℹ️</span>`;
+            groupTitle.onclick = () => showIngredientDetail(sCat);
+            container.appendChild(groupTitle);
+
+            const grid = document.createElement('div');
+            grid.className = 'ing-grid';
+            groups[sCat].sort((a,b) => (ingredientUsage[b]||0) - (ingredientUsage[a]||0)).forEach(ing => {
+                createIngBtn(ing, grid);
+            });
+            container.appendChild(grid);
+        });
+
+        if (noSubGroup.length > 0) {
+            const grid = document.createElement('div');
+            grid.className = 'ing-grid';
+            if (Object.keys(groups).length > 0) grid.style.marginTop = "15px";
+            noSubGroup.sort((a,b) => (ingredientUsage[b]||0) - (ingredientUsage[a]||0)).forEach(ing => {
+                createIngBtn(ing, grid);
+            });
+            container.appendChild(grid);
+        }
+
+        function createIngBtn(ing, parent) {
             const btn = document.createElement('button');
             btn.className = `ingredient-btn ${selected.has(ing) ? 'active' : ''}`;
-            btn.innerText = (isRepresentative && currentCategory !== '전체') ? `⭐ ${ing}` : ing;
+            btn.innerText = ing;
             btn.onclick = () => toggleIngredient(ing);
-            container.appendChild(btn);
+            parent.appendChild(btn);
         }
         renderSelected(); 
     }
 
     function toggleIngredient(ing) {
         selected.has(ing) ? selected.delete(ing) : selected.add(ing);
+        saveSelected();
         filterIngredients();
         renderRecipes();
     }
 
     function clearSelected() {
-        selected.clear();
-        filterIngredients();
-        renderRecipes();
-        showToast();
+        selected.clear(); saveSelected(); filterIngredients(); renderRecipes(); showToast();
     }
 
     function showToast() {
@@ -298,7 +363,7 @@
         box.style.display = 'block';
         selected.forEach(ing => {
             const item = document.createElement('div');
-            item.className = 'selected-item fade-in';
+            item.className = 'item-card fade-in';
             item.onclick = () => showIngredientDetail(ing);
             item.innerHTML = `
                 <button class="remove-tag" onclick="event.stopPropagation(); toggleIngredient('${ing}')">×</button>
@@ -312,34 +377,59 @@
         const resDiv = document.getElementById('result-list');
         resDiv.innerHTML = '';
         if(selected.size === 0) return;
-        const selectedCats = new Set();
-        selected.forEach(ing => { if(ingredientDocs[ing]?.카테고리) selectedCats.add(ingredientDocs[ing].카테고리); });
-        const matches = [];
-        recipes.forEach(r => {
-            let matchCount = 0, score = 0, hasStrictBrand = false;
-            r.items.forEach(reqItem => {
-                if (selected.has(reqItem)) { matchCount++; score += 10; if (reqItem !== ingredientDocs[reqItem]?.카테고리) hasStrictBrand = true; }
-                else if (selectedCats.has(reqItem)) { matchCount++; score += 5; }
-            });
-            if (matchCount > 0) matches.push({ ...r, matchCount, score, hasStrictBrand });
-        });
-        matches.sort((a, b) => b.score - a.score || (b.matchCount/b.items.length) - (a.matchCount/a.items.length));
-        const perfectMatches = matches.filter(m => m.matchCount === m.items.length);
-        const partialMatches = matches.filter(m => m.matchCount !== m.items.length);
 
-        if (perfectMatches.length > 0) {
-            resDiv.appendChild(Object.assign(document.createElement('h3'), {className: 'section-title', innerHTML: `✨ 제조 가능 (${perfectMatches.length})`}));
-            perfectMatches.forEach((r, i) => resDiv.appendChild(createCard(r, i, true)));
+        const selectedCats = new Set(), selectedSubCats = new Set();
+        selected.forEach(ing => {
+            const doc = ingredientDocs[ing];
+            if(doc?.카테고리) selectedCats.add(doc.카테고리);
+            if(doc?.서브카테고리) selectedSubCats.add(doc.서브카테고리);
+        });
+
+        const includedMatches = [], partialMatches = [];
+        recipes.forEach(r => {
+            let matchedCount = 0, hasStrictBrand = false;
+            r.items.forEach(reqItem => {
+                let isReqMatched = false;
+                if (selected.has(reqItem)) {
+                    isReqMatched = true;
+                    const doc = ingredientDocs[reqItem];
+                    if (doc && reqItem !== doc.카테고리 && reqItem !== doc.서브카테고리 && doc.카테고리 !== '부재료') hasStrictBrand = true;
+                } 
+                else if (selectedCats.has(reqItem) || selectedSubCats.has(reqItem)) isReqMatched = true;
+                if (isReqMatched) matchedCount++;
+            });
+            if (matchedCount > 0) {
+                const recipeData = { ...r, matchedCount, hasStrictBrand };
+                if (matchedCount === r.items.length) includedMatches.push(recipeData);
+                else partialMatches.push(recipeData);
+            }
+        });
+
+        includedMatches.sort((a, b) => b.matchedCount - a.matchedCount);
+        partialMatches.sort((a, b) => b.matchedCount - a.matchedCount);
+
+        if (includedMatches.length > 0) {
+            resDiv.appendChild(Object.assign(document.createElement('h3'), {className: 'section-title', innerHTML: `✨ 바로 만들 수 있는 레시피에요`}));
+            includedMatches.forEach((r, i) => resDiv.appendChild(createCard(r, i, true)));
         }
         if (partialMatches.length > 0) {
-            if(perfectMatches.length > 0) resDiv.appendChild(Object.assign(document.createElement('hr'), {className: 'section-divider'}));
+            if(includedMatches.length > 0) resDiv.appendChild(Object.assign(document.createElement('hr'), {className: 'section-divider'}));
             resDiv.appendChild(Object.assign(document.createElement('h3'), {className: 'section-title', style: "color:#a4b0be", innerText: "💡 이런 레시피도 있어요"}));
             partialMatches.forEach((r, i) => resDiv.appendChild(createCard(r, i + 100, false)));
         }
     }
 
-    function createCard(r, idx, isPerfect) {
-        const per = Math.round((r.matchCount / r.items.length) * 100);
+    function createCard(r, idx, isPerfectSection) {
+        const selectedCats = new Set(), selectedSubCats = new Set();
+        selected.forEach(ing => {
+            const doc = ingredientDocs[ing];
+            if(doc?.카테고리) selectedCats.add(doc.카테고리);
+            if(doc?.서브카테고리) selectedSubCats.add(doc.서브카테고리);
+        });
+        let recipeHasCount = 0;
+        r.items.forEach(item => { if (selected.has(item) || selectedCats.has(item) || selectedSubCats.has(item)) recipeHasCount++; });
+        const per = Math.round((recipeHasCount / r.items.length) * 100);
+
         const card = document.createElement('div');
         card.className = 'cocktail-item fade-in';
         card.onclick = () => showDetail(r);
@@ -351,23 +441,27 @@
                     <small style="color:#a4b0be;">${r.난이도 || ""}</small>
                 </div>
                 <div style="font-size:0.8em; color:#747d8c; margin:4px 0;">${r.재료}</div>
-                <div class="matching-text" style="color:${isPerfect ? 'var(--primary-dark)' : '#ffa502'}">${isPerfect ? '✅ 준비 완료' : `재료 ${r.matchCount}/${r.items.length} 보유`}</div>
-                <div class="gauge-container"><div id="g-${idx}" class="gauge-bar" style="background:${isPerfect ? 'var(--primary)' : '#dfe4ea'}"></div></div>
+                <div class="matching-text" style="color:${per === 100 ? 'var(--primary-dark)' : '#ffa502'}">${per === 100 ? '✅ 제조 가능' : `재료 ${recipeHasCount}/${r.items.length} 보유`}</div>
+                <div class="gauge-container"><div id="g-${idx}" class="gauge-bar" style="background:${per === 100 ? 'var(--primary)' : '#dfe4ea'}"></div></div>
             </div>`;
         setTimeout(() => { if(document.getElementById(`g-${idx}`)) document.getElementById(`g-${idx}`).style.width = per + '%'; }, 150);
         return card;
     }
 
     function showDetail(r) {
-        const selectedCats = new Set();
-        selected.forEach(ing => { if(ingredientDocs[ing]?.카테고리) selectedCats.add(ingredientDocs[ing].카테고리); });
-
+        const selectedCats = new Set(), selectedSubCats = new Set();
+        selected.forEach(ing => {
+            const doc = ingredientDocs[ing];
+            if(doc?.카테고리) selectedCats.add(doc.카테고리);
+            if(doc?.서브카테고리) selectedSubCats.add(doc.서브카테고리);
+        });
         document.getElementById('m-name').innerText = r.이름;
+        document.getElementById('m-eng-name').innerText = r['영어이름'] || '';
         document.getElementById('m-ings').innerHTML = r.items.map(i => {
-            const isStrict = selected.has(i), isCat = selectedCats.has(i);
+            const isStrict = selected.has(i), isCat = selectedCats.has(i), isSubCat = selectedSubCats.has(i);
             let style = `background:#eee; color:#999;`;
             if(isStrict) style = `background:var(--primary); color:#4a542a; border:2px solid var(--primary-dark); font-weight:bold;`;
-            else if(isCat) style = `background:#dff9fb; color:#130f40; border:1px solid #7ed6df;`;
+            else if(isCat || isSubCat) style = `background:#dff9fb; color:#130f40; border:1px solid #7ed6df;`;
             return `<span onclick="showIngredientDetail('${i}')" style="cursor:pointer; padding:6px 14px; border-radius:12px; font-size:0.9em; ${style}">${i}</span>`;
         }).join('');
 
@@ -379,50 +473,60 @@
                 const val = parseFloat(match[1]);
                 const unit = match[2];
                 const name = line.split(/[0-9]/)[0].trim();
-                itemsToDraw.push({ name, val, unit }); 
-                totalUnit += val;
+                itemsToDraw.push({ name, val, unit }); totalUnit += val;
             }
         });
-
         if (totalUnit > 0) {
             layersHtml = `<div class="glass-container">`;
-            itemsToDraw.forEach((item, idx) => {
-                layersHtml += `<div class="glass-layer color-${idx % 6}" style="height: ${(item.val / totalUnit) * 100}%"><span>${item.name}</span><span>${item.val}${item.unit}</span></div>`;
-            });
+            itemsToDraw.forEach((item, idx) => { layersHtml += `<div class="glass-layer color-${idx % 6}" style="height: ${(item.val / totalUnit) * 100}%"><span>${item.name}</span><span>${item.val}${item.unit}</span></div>`; });
             layersHtml += `</div>`;
         }
-
-        // 팝업 내용 조립 (설명 칸 분리)
-        document.getElementById('m-content').innerHTML = `
-            <div class="m-visual-section">
-                <img id="m-img" src="${r.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'">
-                ${layersHtml}
-            </div>
-            ${r.설명 ? `<div class="label-text">ABOUT</div><div class="m-desc-box">${r.설명}</div>` : ''}
-            <div class="label-text">RECIPE</div>
-            <div class="m-recipe-box">${r.레시피 || '정보가 없습니다.'}</div>
-        `;
+        document.getElementById('m-content').innerHTML = `<div class="m-visual-section"><img id="m-img" src="${r.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'">${layersHtml}</div>${r.설명 ? `<div class="label-text">ABOUT</div><div class="m-desc-box">${r.설명}</div>` : ''}<div class="label-text">RECIPE</div><div class="m-recipe-box">${r.레시피 || '정보가 없습니다.'}</div>`;
         openModal();
     }
 
     function showIngredientDetail(ing) {
-        const doc = ingredientDocs[ing] || Object.values(ingredientDocs).find(d => d.카테고리 === ing);
+        const doc = ingredientDocs[ing] || Object.values(ingredientDocs).find(d => d.카테고리 === ing || d.서브카테고리 === ing);
         if(!doc) {
             document.getElementById('m-name').innerText = ing;
+            document.getElementById('m-eng-name').innerText = ''; 
             document.getElementById('m-content').innerHTML = `<div class="m-recipe-box">정보가 없습니다.</div>`;
             openModal(); return;
         }
-        document.getElementById('m-name').innerText = doc.재료명;
-        document.getElementById('m-ings').innerHTML = `<span style="background:#2f3542; color:white; padding:6px 18px; border-radius:25px; font-size:0.9em;">${doc.카테고리 || '기타'}</span>`;
-        let html = `<div class="m-visual-section"><img id="m-img" src="${doc.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'"></div>
-                    <div class="label-text">INGREDIENT INFO</div><div class="m-desc-box">${doc.설명 || '설명이 준비 중입니다.'}</div>`;
-        const recommends = recipes.filter(r => r.items.includes(doc.재료명) || r.items.includes(doc.카테고리)).slice(0, 3);
-        if(recommends.length > 0) {
-            html += `<div class="recommend-title">🍹 추천 레시피</div><div class="recommend-list">`;
-            recommends.forEach(r => {
-                html += `<div class="mini-card" onclick="showDetail(${JSON.stringify(r).replace(/"/g, '&quot;')})"><img src="${r.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'"><span>${r.이름}</span></div>`;
+
+        const isRep = (ing === doc.카테고리 || ing === doc.서브카테고리);
+        const actualName = isRep ? ing : doc.재료명;
+        document.getElementById('m-name').innerText = actualName;
+        document.getElementById('m-eng-name').innerText = doc['영어명'] || ''; 
+        document.getElementById('m-ings').innerHTML = `<span style="background:#2f3542; color:white; padding:6px 18px; border-radius:25px; font-size:0.9em;">${doc.카테고리}</span>`;
+        
+        let html = `<div class="m-visual-section"><img id="m-img" src="${doc.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'"></div><div class="label-text">INGREDIENT INFO</div><div class="m-desc-box">${doc.설명 || '설명이 준비 중입니다.'}</div>`;
+        if (!isRep && !selected.has(actualName)) {
+            html += `<button class="add-bar-btn" onclick="toggleIngredient('${actualName}'); closeModal();">내 바에 추가하기</button>`;
+        }
+        if (isRep) {
+            const targetName = ing;
+            const relatedIngs = Object.keys(ingredientDocs).filter(key => {
+                const d = ingredientDocs[key];
+                return (d.카테고리 === targetName || d.서브카테고리 === targetName) && key !== targetName;
             });
-            html += `</div>`;
+            if(relatedIngs.length > 0) {
+                html += `<div class="recommend-title">📦 ${targetName} 하위 재료</div><div class="selected-scroll">`;
+                relatedIngs.sort((a,b) => (ingredientUsage[b]||0) - (ingredientUsage[a]||0)).forEach(subIng => {
+                    const subDoc = ingredientDocs[subIng];
+                    html += `<div class="item-card" onclick="showIngredientDetail('${subIng}')"><img src="${subDoc?.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'"><span>${subIng}</span></div>`;
+                });
+                html += `</div>`;
+            }
+        } else {
+            const recommends = recipes.filter(r => r.items.includes(doc.재료명) || r.items.includes(doc.카테고리) || r.items.includes(doc.서브카테고리)).slice(0, 3);
+            if(recommends.length > 0) {
+                html += `<div class="recommend-title">🍹 추천 레시피</div><div class="recommend-list">`;
+                recommends.forEach(r => {
+                    html += `<div class="mini-card" onclick="showDetail(${JSON.stringify(r).replace(/"/g, '&quot;')})"><img src="${r.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'"><span>${r.이름}</span></div>`;
+                });
+                html += `</div>`;
+            }
         }
         document.getElementById('m-content').innerHTML = html;
         openModal();
@@ -430,17 +534,14 @@
 
     function openModal() {
         const m = document.getElementById('modal'), o = document.getElementById('modal-overlay');
-        m.style.display = o.style.display = 'block';
-        m.scrollTop = 0;
+        m.style.display = o.style.display = 'block'; m.scrollTop = 0;
         setTimeout(() => { m.classList.add('show'); o.classList.add('show'); }, 10);
     }
-
     function closeModal() {
         const m = document.getElementById('modal'), o = document.getElementById('modal-overlay');
         m.classList.remove('show'); o.classList.remove('show');
         setTimeout(() => m.style.display = o.style.display = 'none', 300);
     }
-    
     window.onload = () => { autoLoad('cocktails.xlsx', 'r'); autoLoad('ingredients.xlsx', 'i'); };
 </script>
 </body>
