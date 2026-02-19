@@ -531,7 +531,7 @@
             if(doc?.카테고리) selectedCats.add(doc.카테고리);
             if(doc?.서브카테고리) selectedSubCats.add(doc.서브카테고리);
         });
-        
+    
         document.getElementById('m-name').innerText = r.이름;
         document.getElementById('m-eng-name').innerText = r['영어이름'] || '';
         document.getElementById('m-ings').innerHTML = r.items.map(i => {
@@ -542,6 +542,7 @@
             return `<span onclick="showIngredientDetail('${i}')" style="cursor:pointer; padding:6px 14px; border-radius:12px; font-size:0.9em; ${style}">${i}</span>`;
         }).join('');
 
+        // --- 비율 게이지(Glass Layer) 생성 로직 ---
         const lines = r.레시피?.split('\n') || [];
         let layersHtml = '', totalUnit = 0, itemsToDraw = [];
         lines.forEach((line) => {
@@ -559,8 +560,8 @@
             layersHtml = `<div class="glass-container">`;
             itemsToDraw.forEach((item, idx) => {
                 const heightPer = (item.val / totalUnit) * 100;
-                const bgColor = getIngredientColor(item.name, idx);
-                const textColor = getContrastYIQ(bgColor);
+                const bgColor = typeof getIngredientColor === 'function' ? getIngredientColor(item.name, idx) : '#ddd';
+                const textColor = typeof getContrastYIQ === 'function' ? getContrastYIQ(bgColor) : '#000';
                 layersHtml += `<div class="glass-layer" style="height: ${heightPer}%; background: ${bgColor}; color: ${textColor};">
                     <span>${item.name}</span>
                     <span>${item.val}${item.unit}</span>
@@ -569,16 +570,24 @@
             layersHtml += `</div>`;
         }
 
-        // 유튜브 섹션 HTML 생성
+        // --- 유튜브 섹션 로직 ---
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
         const match = r.youtube ? r.youtube.match(regExp) : null;
         const ytId = (match && match[2].length === 11) ? match[2] : null;
-    
         const ytHtml = ytId ? `<div class="label-text">MAKING VIDEO</div><div class="video-container"><iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen></iframe></div>` : '';
 
+        // --- 최종 화면 구성 (layersHtml 추가됨) ---
         document.getElementById('m-content').innerHTML = `
-            <div class="m-visual-section"><img src="${r.이미지 || DEFAULT_IMG}" id="m-img" onerror="this.src='${DEFAULT_IMG}'"></div>
-            <div class="label-text">RECIPE</div><div class="m-recipe-box">${r.레시피}</div>${ytHtml}`;
+            <div class="m-visual-section">
+                <img src="${r.이미지 || DEFAULT_IMG}" id="m-img" onerror="this.src='${DEFAULT_IMG}'">
+                ${layersHtml} 
+            </div>
+            <div class="label-text">ABOUT</div>
+            <div class="m-desc-box">${r.설명 || '칵테일 설명이 준비 중입니다.'}</div>
+            <div class="label-text">RECIPE</div>
+            <div class="m-recipe-box">${r.레시피}</div>
+            ${ytHtml}
+        `;
         openModal();
     }
 
