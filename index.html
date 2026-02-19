@@ -32,9 +32,17 @@
         }
         #toast.show { opacity: 1; bottom: 100px; }
 
-        .header-section { text-align: center; margin-bottom: 25px; }
+        .header-section { text-align: center; margin-bottom: 25px; position: relative; }
         .main-logo { max-width: 200px; width: 70%; height: auto; margin-bottom: 8px; }
         .main-title { margin: 0; font-size: 0.9rem; font-weight: 500; color: #747d8c; letter-spacing: 1px; text-transform: uppercase; }
+        
+        .guide-btn { 
+            background: white; border: 1.5px solid #ddd; border-radius: 20px; 
+            padding: 6px 15px; font-size: 0.75rem; color: #747d8c; cursor: pointer; 
+            margin-top: 10px; font-weight: bold; transition: 0.2s;
+            display: inline-flex; align-items: center; gap: 4px;
+        }
+        .guide-btn:hover { background: #f1f2f6; border-color: #ccc; }
 
         .search-filter-box { background: white; padding: 15px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 12px; }
         .search-input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 12px; box-sizing: border-box; font-size: 1rem; outline: none; transition: 0.3s; margin-bottom: 12px; }
@@ -93,7 +101,6 @@
 
         .match-badge { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; background: #e3f2fd; color: #1976d2; border: 1px solid #1976d2; font-weight: bold; }
 
-        /* 비주얼 게이지 스타일 업그레이드 */
         .m-visual-section { display: flex; align-items: center; justify-content: center; gap: 30px; margin-bottom: 25px; flex-wrap: wrap; }
         .glass-container { 
             width: 100px; height: 180px; border: 4px solid #2f3542; border-top: 1px solid rgba(0,0,0,0.05); 
@@ -103,6 +110,10 @@
         .glass-layer { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; font-size: 11px; transition: 0.5s; overflow: hidden; flex-shrink: 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .glass-layer span { white-space: nowrap; transform: scale(0.85); line-height: 1.1; }
 
+        /* 유튜브 섹션 스타일 */
+        .video-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; margin-top: 15px; background: #000; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
         .bottom-image-wrap { text-align: center; margin: 40px 0 20px 0; }
         .bottom-banner-img { max-width: 100%; height: auto; border-radius: 15px; }
 
@@ -111,16 +122,17 @@
         #modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, 60%); background: white; padding: 40px 25px 30px 25px; border-radius: 35px; z-index: 1000; width: 90%; max-width: 480px; text-align: center; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 60px rgba(0,0,0,0.35); opacity: 0; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1), opacity 0.3s ease; }
         #modal.show { display: block; transform: translate(-50%, -50%); opacity: 1; }
         .close-x { position: absolute; top: 20px; right: 20px; font-size: 32px; color: #d1d8e0; cursor: pointer; line-height: 1; transition: 0.2s; z-index: 1001; }
+        
+        .guide-step { text-align: left; margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 15px; }
+        .guide-step-title { font-weight: bold; color: var(--primary-dark); margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+        .guide-step-desc { font-size: 0.9rem; color: #57606f; }
+
         #m-name { border-bottom: 4px solid var(--primary); display: inline-block; padding-bottom: 2px; font-size: 1.6rem; letter-spacing: -0.5px; margin-bottom: 4px; }
         #m-eng-name { font-size: 0.9rem; color: #a4b0be; font-weight: 500; text-transform: uppercase; }
         #m-img { width: 180px; height: 180px; object-fit: contain; margin: 0; filter: drop-shadow(0 12px 20px rgba(0,0,0,0.12)); }
         .label-text { font-size: 0.8rem; font-weight: bold; color: #a4b0be; text-align: left; margin-top: 15px; padding-left: 5px; text-transform: uppercase; }
         .m-desc-box { text-align: left; background: #fdfdfd; border-left: 5px solid #d1d8e0; padding: 15px; border-radius: 12px; font-size: 0.95rem; margin-top: 8px; color: #57606f; line-height: 1.6; white-space: pre-wrap; }
         .m-recipe-box { text-align: left; background: #f9f9f4; border-left: 5px solid var(--primary); padding: 18px; border-radius: 12px; font-size: 1rem; white-space: pre-wrap; line-height: 1.7; margin-top: 8px; }
-        .recommend-title { font-size: 0.95rem; font-weight: bold; color: #747d8c; margin-top: 30px; text-align: left; padding-left: 5px; }
-        .recommend-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
-        .mini-card { display: flex; align-items: center; gap: 15px; background: #f1f2f6; padding: 12px; border-radius: 15px; cursor: pointer; text-align: left; transition: 0.2s; }
-        .mini-card img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; background: white; }
 
         .add-bar-btn { width: 100%; padding: 15px; background: var(--primary); color: #4a542a; border: none; border-radius: 15px; font-size: 1rem; font-weight: bold; margin-top: 25px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .add-bar-btn:active { transform: scale(0.98); background: var(--primary-dark); }
@@ -133,11 +145,12 @@
 <div class="container">
     <header class="header-section">
         <img src="logo.png" alt="Logo" class="main-logo" onerror="this.style.display='none'">
-        <h1 class="main-title">My Smart Bar</h1>
+        <h1 class="main-title">My Smart Cocktail Bar</h1>
+        <button class="guide-btn" onclick="showAppGuide()">❓ 사용 방법</button>
     </header>
 
     <div class="search-filter-box">
-        <input type="text" id="ing-search" class="search-input" placeholder="🔍 재료 검색" oninput="filterIngredients()">
+        <input type="text" id="ing-search" class="search-input" placeholder="🔍 재료 검색 (초성도 가능)" oninput="filterIngredients()">
         <div class="category-tabs" id="category-tabs"></div>
         <div id="sub-category-box"></div>
     </div>
@@ -164,7 +177,7 @@
 <div id="modal-overlay" onclick="closeModal()"></div>
 <div id="modal">
     <span class="close-x" onclick="closeModal()">&times;</span>
-    <div class="modal-header-group">
+    <div id="modal-header-container">
         <h2 id="m-name"></h2>
         <div id="m-eng-name"></div>
     </div>
@@ -183,6 +196,36 @@
     function loadSelected() {
         const saved = localStorage.getItem('cktl_selected');
         if (saved) selected = new Set(JSON.parse(saved));
+    }
+
+    function showAppGuide() {
+        document.getElementById('m-name').innerText = "사용 방법";
+        document.getElementById('m-eng-name').innerText = "How to use CKTL.GG";
+        document.getElementById('m-ings').innerHTML = "";
+        document.getElementById('m-content').innerHTML = `
+            <div class="guide-step fade-in">
+                <div class="guide-step-title">1. 보유 재료 선택</div>
+                <div class="guide-step-desc">검색창이나 카테고리 탭을 이용해 현재 가지고 있는 재료를 클릭하여 추가하세요.</div>
+            </div>
+            <div class="guide-step fade-in" style="animation-delay: 0.1s">
+                <div class="guide-step-title">2. 레시피 확인</div>
+                <div class="guide-step-desc">재료를 추가하면 즉시 만들 수 있는 칵테일과 재료가 조금 부족한 칵테일이 구분되어 나타납니다.</div>
+            </div>
+            <div class="guide-step fade-in" style="animation-delay: 0.2s">
+                <div class="guide-step-title">3. 상세 정보와 게이지</div>
+                <div class="guide-step-desc">레시피를 누르면 재료 비율을 시각화한 게이지와 상세 제조법을 볼 수 있습니다.</div>
+            </div>
+            <button class="add-bar-btn" onclick="closeModal()">이해했어요!</button>
+        `;
+        openModal();
+    }
+
+    // 유튜브 ID 추출 함수
+    function getYoutubeId(url) {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
     }
 
     function getChosung(str) {
@@ -205,7 +248,11 @@
             const json = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
             
             if(type === 'r') {
-                recipes = json.map(row => ({...row, items: row['재료']?.split(',').map(i=>i.trim()) || []}));
+                recipes = json.map(row => ({
+                    ...row, 
+                    items: row['재료']?.split(',').map(i=>i.trim()) || [],
+                    youtube: row['유튜브링크'] || row['유튜브'] || row['YouTube'] || '' 
+                }));
                 calculateUsage();
             } else {
                 json.forEach(row => { 
@@ -214,10 +261,8 @@
                         const cat = row['카테고리']?.trim() || '기타';
                         let subCat = row['서브카테고리']?.trim() || '';
                         if(subCat === '기타') subCat = ''; 
-                        
                         ingredientDocs[name] = { ...row, 카테고리: cat, 서브카테고리: subCat }; 
                         categories.add(cat);
-                        
                         if(subCat) {
                             if(!subCategories[cat]) subCategories[cat] = new Set(['전체']);
                             subCategories[cat].add(subCat);
@@ -282,9 +327,7 @@
         const queryCho = getChosung(query);
         const container = document.getElementById('ingredient-list');
         container.innerHTML = '';
-        
-        const groups = {};
-        const noSubGroup = [];
+        const groups = {}, noSubGroup = [];
 
         Object.keys(ingredientDocs).forEach(ing => {
             const doc = ingredientDocs[ing];
@@ -293,9 +336,7 @@
             const subMatch = currentSubCategory === '전체' || doc.서브카테고리 === currentSubCategory;
 
             if (isMatch && catMatch && subMatch) {
-                const isRep = (ing === doc.카테고리 || ing === doc.서브카테고리);
-                if (isRep) return;
-                
+                if (ing === doc.카테고리 || ing === doc.서브카테고리) return;
                 if (currentCategory !== '전체' && doc.서브카테고리) {
                     if (!groups[doc.서브카테고리]) groups[doc.서브카테고리] = [];
                     groups[doc.서브카테고리].push(ing);
@@ -319,7 +360,6 @@
             groupTitle.innerHTML = `${sCat} <span class="info-icon">ℹ️</span>`;
             groupTitle.onclick = () => showIngredientDetail(sCat);
             container.appendChild(groupTitle);
-
             const grid = document.createElement('div');
             grid.className = 'ing-grid';
             groups[sCat].sort((a,b) => (ingredientUsage[b]||0) - (ingredientUsage[a]||0)).forEach(ing => {
@@ -350,9 +390,7 @@
 
     function toggleIngredient(ing) {
         selected.has(ing) ? selected.delete(ing) : selected.add(ing);
-        saveSelected();
-        filterIngredients();
-        renderRecipes();
+        saveSelected(); filterIngredients(); renderRecipes();
     }
 
     function clearSelected() {
@@ -457,13 +495,10 @@
         return card;
     }
 
-    // 대비색(텍스트색) 결정 함수
     function getContrastYIQ(hexcolor){
         hexcolor = hexcolor.replace("#", "");
         if (hexcolor.length === 3) hexcolor = hexcolor.split('').map(s => s + s).join('');
-        // rgba나 투명도 포함된 색상은 기본값 처리
         if (hexcolor.startsWith('rgba')) return 'white'; 
-        
         const r = parseInt(hexcolor.substr(0,2),16);
         const g = parseInt(hexcolor.substr(2,2),16);
         const b = parseInt(hexcolor.substr(4,2),16);
@@ -471,7 +506,6 @@
         return (yiq >= 128) ? '#2f3542' : 'white';
     }
 
-    // 이름 기반 색상 매칭 함수 (hex값 반환)
     function getIngredientColor(name, index) {
         const n = name.toLowerCase();
         if (n.includes('주스') || n.includes('레몬') || n.includes('라임') || n.includes('오렌지')) return '#FFD54F'; 
@@ -482,7 +516,6 @@
         if (n.includes('크림') || n.includes('우유')) return '#F5F5F5'; 
         if (n.includes('그레나딘') || n.includes('딸기') || n.includes('캄파리')) return '#EF5350'; 
         if (n.includes('리큐르') || n.includes('술')) return '#BA68C8'; 
-        
         const palette = ['#ff9f43', '#ff6b6b', '#54a0ff', '#5f27cd', '#48dbfb', '#1dd1a1'];
         return palette[index % palette.length];
     }
@@ -506,8 +539,7 @@
         }).join('');
 
         const lines = r.레시피?.split('\n') || [];
-        let layersHtml = '', totalUnit = 0; const itemsToDraw = [];
-        
+        let layersHtml = '', totalUnit = 0, itemsToDraw = [];
         lines.forEach((line) => {
             const match = line.match(/([\d.]+)\s*(oz|ml|part|parts|dash)/i);
             if (match) {
@@ -533,6 +565,10 @@
             layersHtml += `</div>`;
         }
 
+        // 유튜브 섹션 HTML 생성
+        const ytId = getYoutubeId(r.youtube);
+        const ytHtml = ytId ? `<div class="label-text">MAKING VIDEO</div><div class="video-container"><iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen></iframe></div>` : '';
+
         document.getElementById('m-content').innerHTML = `
             <div class="m-visual-section">
                 <img id="m-img" src="${r.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'">
@@ -540,7 +576,8 @@
             </div>
             ${r.설명 ? `<div class="label-text">ABOUT</div><div class="m-desc-box">${r.설명}</div>` : ''}
             <div class="label-text">RECIPE</div>
-            <div class="m-recipe-box">${r.레시피 || '정보가 없습니다.'}</div>`;
+            <div class="m-recipe-box">${r.레시피 || '정보가 없습니다.'}</div>
+            ${ytHtml}`;
             
         openModal();
     }
@@ -553,40 +590,14 @@
             document.getElementById('m-content').innerHTML = `<div class="m-recipe-box">정보가 없습니다.</div>`;
             openModal(); return;
         }
-
         const isRep = (ing === doc.카테고리 || ing === doc.서브카테고리);
         const actualName = isRep ? ing : doc.재료명;
         document.getElementById('m-name').innerText = actualName;
         document.getElementById('m-eng-name').innerText = doc['영어명'] || ''; 
         document.getElementById('m-ings').innerHTML = `<span style="background:#2f3542; color:white; padding:6px 18px; border-radius:25px; font-size:0.9em;">${doc.카테고리}</span>`;
-        
         let html = `<div class="m-visual-section"><img id="m-img" src="${doc.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'"></div><div class="label-text">INGREDIENT INFO</div><div class="m-desc-box">${doc.설명 || '설명이 준비 중입니다.'}</div>`;
         if (!isRep && !selected.has(actualName)) {
             html += `<button class="add-bar-btn" onclick="toggleIngredient('${actualName}'); closeModal();">내 바에 추가하기</button>`;
-        }
-        if (isRep) {
-            const targetName = ing;
-            const relatedIngs = Object.keys(ingredientDocs).filter(key => {
-                const d = ingredientDocs[key];
-                return (d.카테고리 === targetName || d.서브카테고리 === targetName) && key !== targetName;
-            });
-            if(relatedIngs.length > 0) {
-                html += `<div class="recommend-title">📦 ${targetName} 하위 재료</div><div class="selected-scroll">`;
-                relatedIngs.sort((a,b) => (ingredientUsage[b]||0) - (ingredientUsage[a]||0)).forEach(subIng => {
-                    const subDoc = ingredientDocs[subIng];
-                    html += `<div class="item-card" onclick="showIngredientDetail('${subIng}')"><img src="${subDoc?.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'"><span>${subIng}</span></div>`;
-                });
-                html += `</div>`;
-            }
-        } else {
-            const recommends = recipes.filter(r => r.items.includes(doc.재료명) || r.items.includes(doc.카테고리) || r.items.includes(doc.서브카테고리)).slice(0, 3);
-            if(recommends.length > 0) {
-                html += `<div class="recommend-title">🍹 추천 레시피</div><div class="recommend-list">`;
-                recommends.forEach(r => {
-                    html += `<div class="mini-card" onclick="showDetail(${JSON.stringify(r).replace(/"/g, '&quot;')})"><img src="${r.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'"><span>${r.이름}</span></div>`;
-                });
-                html += `</div>`;
-            }
         }
         document.getElementById('m-content').innerHTML = html;
         openModal();
