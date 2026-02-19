@@ -40,7 +40,6 @@
         .search-input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 12px; box-sizing: border-box; font-size: 1rem; outline: none; transition: 0.3s; margin-bottom: 12px; }
         .search-input:focus { border-color: var(--primary); }
         
-        /* 카테고리 탭: 스크롤 제거 및 줄바꿈 적용 */
         .category-tabs { display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 8px; }
         .cat-tab { padding: 8px 14px; border-radius: 12px; background: #f1f2f6; border: none; font-size: 0.85rem; cursor: pointer; color: #57606f; transition: 0.2s; }
         .cat-tab.active { background: #2f3542; color: white; font-weight: bold; }
@@ -94,6 +93,16 @@
 
         .match-badge { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; background: #e3f2fd; color: #1976d2; border: 1px solid #1976d2; font-weight: bold; }
 
+        /* 비주얼 게이지 스타일 업그레이드 */
+        .m-visual-section { display: flex; align-items: center; justify-content: center; gap: 30px; margin-bottom: 25px; flex-wrap: wrap; }
+        .glass-container { 
+            width: 100px; height: 180px; border: 4px solid #2f3542; border-top: 1px solid rgba(0,0,0,0.05); 
+            border-radius: 5px 5px 25px 25px; position: relative; overflow: hidden; display: flex; flex-direction: column; 
+            background: rgba(255,255,255,0.7); box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+        .glass-layer { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; font-size: 11px; transition: 0.5s; overflow: hidden; flex-shrink: 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .glass-layer span { white-space: nowrap; transform: scale(0.85); line-height: 1.1; }
+
         .bottom-image-wrap { text-align: center; margin: 40px 0 20px 0; }
         .bottom-banner-img { max-width: 100%; height: auto; border-radius: 15px; }
 
@@ -104,7 +113,7 @@
         .close-x { position: absolute; top: 20px; right: 20px; font-size: 32px; color: #d1d8e0; cursor: pointer; line-height: 1; transition: 0.2s; z-index: 1001; }
         #m-name { border-bottom: 4px solid var(--primary); display: inline-block; padding-bottom: 2px; font-size: 1.6rem; letter-spacing: -0.5px; margin-bottom: 4px; }
         #m-eng-name { font-size: 0.9rem; color: #a4b0be; font-weight: 500; text-transform: uppercase; }
-        #m-img { width: 160px; height: 160px; object-fit: contain; margin: 0; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); }
+        #m-img { width: 180px; height: 180px; object-fit: contain; margin: 0; filter: drop-shadow(0 12px 20px rgba(0,0,0,0.12)); }
         .label-text { font-size: 0.8rem; font-weight: bold; color: #a4b0be; text-align: left; margin-top: 15px; padding-left: 5px; text-transform: uppercase; }
         .m-desc-box { text-align: left; background: #fdfdfd; border-left: 5px solid #d1d8e0; padding: 15px; border-radius: 12px; font-size: 0.95rem; margin-top: 8px; color: #57606f; line-height: 1.6; white-space: pre-wrap; }
         .m-recipe-box { text-align: left; background: #f9f9f4; border-left: 5px solid var(--primary); padding: 18px; border-radius: 12px; font-size: 1rem; white-space: pre-wrap; line-height: 1.7; margin-top: 8px; }
@@ -448,6 +457,36 @@
         return card;
     }
 
+    // 대비색(텍스트색) 결정 함수
+    function getContrastYIQ(hexcolor){
+        hexcolor = hexcolor.replace("#", "");
+        if (hexcolor.length === 3) hexcolor = hexcolor.split('').map(s => s + s).join('');
+        // rgba나 투명도 포함된 색상은 기본값 처리
+        if (hexcolor.startsWith('rgba')) return 'white'; 
+        
+        const r = parseInt(hexcolor.substr(0,2),16);
+        const g = parseInt(hexcolor.substr(2,2),16);
+        const b = parseInt(hexcolor.substr(4,2),16);
+        const yiq = ((r*299)+(g*587)+(b*114))/1000;
+        return (yiq >= 128) ? '#2f3542' : 'white';
+    }
+
+    // 이름 기반 색상 매칭 함수 (hex값 반환)
+    function getIngredientColor(name, index) {
+        const n = name.toLowerCase();
+        if (n.includes('주스') || n.includes('레몬') || n.includes('라임') || n.includes('오렌지')) return '#FFD54F'; 
+        if (n.includes('시럽') || n.includes('설탕') || n.includes('꿀')) return '#FF8A65'; 
+        if (n.includes('소다') || n.includes('워터') || n.includes('토닉')) return '#B3E5FC'; 
+        if (n.includes('진') || n.includes('보드카') || n.includes('화이트 럼') || n.includes('데킬라')) return '#E0F7FA'; 
+        if (n.includes('커피') || n.includes('깔루아') || n.includes('콜라')) return '#5D4037'; 
+        if (n.includes('크림') || n.includes('우유')) return '#F5F5F5'; 
+        if (n.includes('그레나딘') || n.includes('딸기') || n.includes('캄파리')) return '#EF5350'; 
+        if (n.includes('리큐르') || n.includes('술')) return '#BA68C8'; 
+        
+        const palette = ['#ff9f43', '#ff6b6b', '#54a0ff', '#5f27cd', '#48dbfb', '#1dd1a1'];
+        return palette[index % palette.length];
+    }
+
     function showDetail(r) {
         const selectedCats = new Set(), selectedSubCats = new Set();
         selected.forEach(ing => {
@@ -455,6 +494,7 @@
             if(doc?.카테고리) selectedCats.add(doc.카테고리);
             if(doc?.서브카테고리) selectedSubCats.add(doc.서브카테고리);
         });
+        
         document.getElementById('m-name').innerText = r.이름;
         document.getElementById('m-eng-name').innerText = r['영어이름'] || '';
         document.getElementById('m-ings').innerHTML = r.items.map(i => {
@@ -467,21 +507,41 @@
 
         const lines = r.레시피?.split('\n') || [];
         let layersHtml = '', totalUnit = 0; const itemsToDraw = [];
+        
         lines.forEach((line) => {
             const match = line.match(/([\d.]+)\s*(oz|ml|part|parts|dash)/i);
             if (match) {
                 const val = parseFloat(match[1]);
-                const unit = match[2];
-                const name = line.split(/[0-9]/)[0].trim();
-                itemsToDraw.push({ name, val, unit }); totalUnit += val;
+                const unit = match[2].toLowerCase();
+                const name = line.split(/[0-9]/)[0].trim() || "재료";
+                itemsToDraw.push({ name, val, unit }); 
+                totalUnit += val;
             }
         });
+
         if (totalUnit > 0) {
             layersHtml = `<div class="glass-container">`;
-            itemsToDraw.forEach((item, idx) => { layersHtml += `<div class="glass-layer color-${idx % 6}" style="height: ${(item.val / totalUnit) * 100}%"><span>${item.name}</span><span>${item.val}${item.unit}</span></div>`; });
+            itemsToDraw.forEach((item, idx) => {
+                const heightPer = (item.val / totalUnit) * 100;
+                const bgColor = getIngredientColor(item.name, idx);
+                const textColor = getContrastYIQ(bgColor);
+                layersHtml += `<div class="glass-layer" style="height: ${heightPer}%; background: ${bgColor}; color: ${textColor};">
+                    <span>${item.name}</span>
+                    <span>${item.val}${item.unit}</span>
+                </div>`;
+            });
             layersHtml += `</div>`;
         }
-        document.getElementById('m-content').innerHTML = `<div class="m-visual-section"><img id="m-img" src="${r.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'">${layersHtml}</div>${r.설명 ? `<div class="label-text">ABOUT</div><div class="m-desc-box">${r.설명}</div>` : ''}<div class="label-text">RECIPE</div><div class="m-recipe-box">${r.레시피 || '정보가 없습니다.'}</div>`;
+
+        document.getElementById('m-content').innerHTML = `
+            <div class="m-visual-section">
+                <img id="m-img" src="${r.이미지 || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'">
+                ${layersHtml}
+            </div>
+            ${r.설명 ? `<div class="label-text">ABOUT</div><div class="m-desc-box">${r.설명}</div>` : ''}
+            <div class="label-text">RECIPE</div>
+            <div class="m-recipe-box">${r.레시피 || '정보가 없습니다.'}</div>`;
+            
         openModal();
     }
 
